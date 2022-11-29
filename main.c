@@ -52,6 +52,9 @@ bool printWelcome() {
   return useTemplate;
 }
 
+/**
+ * @brief Print the system information
+ */
 void showSystemInfo() {
   printf("================================================================================================\n");
   printf("Informações do sistema: \n");

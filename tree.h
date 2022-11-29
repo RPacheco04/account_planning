@@ -144,6 +144,12 @@ void _removeNode(Tree *current, char *id) {
   }
 }
 
+/**
+ * @brief Set the value of the node of id passed as parameter to the value passed as parameter
+ * @param current 
+ * @param id 
+ * @param value 
+ */
 void _insertValue(Tree *current, char *id, double value) {
   if (strcmp(current->id, id) == 0) {
     if (current->child_count == 0) {
