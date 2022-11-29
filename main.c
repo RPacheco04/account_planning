@@ -6,12 +6,13 @@
 #include "tree.h"
 
 enum Options {
+  EXIT = 0,
   ADD = 1,
   REMOVE,
   INSERTVALUE,
   PRINT,
+  BALANCE,
   INFO,
-  EXIT = 0
 };
 
 /**
@@ -23,7 +24,8 @@ void printMenu() {
   printf("2 - Remover conta \n");
   printf("3 - Inserir valor em conta \n");
   printf("4 - Imprimir plano de contas \n");
-  printf("5 - Informações do sistema \n");
+  printf("5 - Calcular saldo \n");
+  printf("6 - Informações do sistema \n");
   printf("0 - Sair \n");
 }
 
@@ -36,7 +38,7 @@ bool printWelcome() {
   printf("================================================================================================\n");
   printf("Bem-vindo ao simulador de Plano de Contas Contábil. \n\n");
   printf("Você irá criar o Plano de Contas do seu negócio.\n");
-  printf("Por padrão, o Plano de Contas é criado com o Plano de Contas Predefinido, com contas sugeridas .\n");
+  printf("Plano de Contas é criado com o Plano de Contas Predefinido, com contas sugeridas .\n");
   printf("Você pode editá-lo do jeito que desejar, ou criar um plano customizado do zero. \n\n");
   printf("1 - Sim \n");
   printf("2 - Não \n");
@@ -57,13 +59,12 @@ void showSystemInfo() {
   printf("O programa foi desenvolvido em C, utilizando estrutura em Árvores para armazenar as contas. \n\n");
 
   printf("Estrutua do plano de contas: \n");
-  printf("Plano de Contas \n");
   printf("O plano de contas básico é dividido entre Receitas e Despesas.\n");
   printf("Todos as entradas de valor devem ser armazenadas e informadas em Receitas, enquanto as saídas de valor, em Despesas\n\n");
 
   printf("Plano de Contas Predefinido: \n");
   printf("O plano de contas predefinido foi criado por nós a partir de análises dos Planos de Contas criados para empresas de pequeno e médio porte.\n");
-  printf("O plano de contas predefinido é composto por 4 grupos de Receitas e 5 grupos de Despesas, sendo eles: \n");
+  printf("É composto por 4 grupos de Receitas e 5 grupos de Despesas, sendo eles: \n");
   printf("1 - Receitas \n");
   printf("    1.1 - Fontes de renda direta\n");
   printf("        1.1.1 - Vendas\n");
@@ -78,10 +79,10 @@ void showSystemInfo() {
   printf("    1.4 - Outras receitas \n");
   printf("2 - Despesas \n");
   printf("    2.1 - Custos em produtos \n");
-  printf("        2.1.1 - Materia prima\n");
-  printf("        2.1.2 - Promoções e descontos");
-  printf("        2.1.3 - Infraestrutura de produtos\n");
-  printf("        2.1.4 - Outros custos em produtos");
+  printf("        2.1.1 - Materia prima \n");
+  printf("        2.1.2 - Promoções e descontos \n");
+  printf("        2.1.3 - Infraestrutura de produtos \n");
+  printf("        2.1.4 - Outros custos em produtos \n");
   printf("    2.2 - Custos de recursos humanos \n");
   printf("        2.2.1 - Salários de funcionários \n");
   printf("        2.2.2 - Benefícios de funcionários \n");
@@ -118,8 +119,7 @@ void showCurrentTree(Tree * tree) {
 }
 
 /**
- * @brief 
- * 
+ * @brief Get user input to create a new account. Calls _addNode
  * @param current 
  */
 void insertNewNode(Tree *current) {
@@ -137,21 +137,25 @@ void insertNewNode(Tree *current) {
   showCurrentTree(current);
 }
 
-/**
- * @brief 
- * 
- */
+/** Get the id of the node to delete from user input and calls _removeNode */
 void removeNode(Tree *current) {
   char *id = malloc(sizeof(char) * 100);
   printf("Digite o ID da conta que deseja remover: ");
   scanf("%s", id);
-  _removeNode(current, id);
-  printf("Conta removida com sucesso! \n");
-  showCurrentTree(current);
+  if (strcmp(id, "1") == 0 || strcmp(id, "2") == 0) {
+    printf("\n================================================================================================\n");
+    printf("Não é permitido deletar as contas Receitas e Despesas\n");
+    printf("================================================================================================\n\n");
+    return;
+  } else {
+    _removeNode(current, id);
+    printf("Conta removida com sucesso! \n");
+    showCurrentTree(current);
+  }
 }
 
 /**
- * @brief 
+ * @brief Get user input of node id and new value. Calls _insertValue
  * 
  */
 void insertValue(Tree *current) {
@@ -166,6 +170,19 @@ void insertValue(Tree *current) {
   showCurrentTree(current);
 }
 
+
+/**
+ * @brief Calculate the balance of the billings (Receitas - Despesas)
+ * @param current 
+ */
+void calculateBalance(Tree *current) {
+  printf("\n================================================================================================\n");
+  printf("Calculando o balanço do plano de contas atual: \n");
+  double balance = _calculateBalance(current);
+  printf("O balanço do plano de contas atual é: R$ %.2lf \n", balance);
+  printf("================================================================================================\n");
+
+}
 
 /**
  * @brief Create the pre-defined tree structure
@@ -231,6 +248,9 @@ int main() {
         break;
       case PRINT:
         showCurrentTree(tree);
+        break;
+      case BALANCE:
+        calculateBalance(tree);
         break;
       case INFO:
         showSystemInfo();

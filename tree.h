@@ -46,12 +46,30 @@ void _deleteTree(Tree* tree) {
   free(tree);
 }
 
+
 double _calculateValue(Tree* tree) {
   double value = tree->value;
   for (int i = 0; i < tree->child_count; i++) {
     value += _calculateValue(tree->childs[i]);
   }
   return value;
+}
+
+/**
+ * @brief Calculate the balance of the billings. Get the tree child of id 1 and subtract the tree child of id 2
+ * @param tree 
+ * @return double 
+ */
+double _calculateBalance(Tree* tree) {
+  double balance = 0;
+  for (int i = 0; i < tree->child_count; i++) {
+    if (strcmp(tree->childs[i]->id, "1") == 0) 
+      balance += _calculateValue(tree->childs[i]);
+    else if (strcmp(tree->childs[i]->id, "2") == 0)
+      balance -= _calculateValue(tree->childs[i]);
+    
+  }
+  return balance;
 }
 
 void _showTree(Tree* t, int ident) {
