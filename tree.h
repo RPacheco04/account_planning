@@ -39,6 +39,11 @@ Tree* _createEmptyTree() {
   return tree;
 }
 
+/**
+ * @brief Free the memory of the current tree node. 
+ * Loop over the childs and call _deleteTree recursively, passing the child nodes as parameter.
+ * @param tree 
+ */
 void _deleteTree(Tree* tree) {
   for (int i = 0; i < tree->child_count; i++) {
     _deleteTree(tree->childs[i]);
@@ -47,6 +52,13 @@ void _deleteTree(Tree* tree) {
 }
 
 
+/**
+ * @brief For the current node, loop over the childs and call _calculateValue recursively, passing the child nodes as parameter.
+ * For each node, add the value of the child to the current node value.
+ * The value of the current node is the sum of the values of the childs.
+ * @param tree
+ * @return double 
+ */
 double _calculateValue(Tree* tree) {
   double value = tree->value;
   for (int i = 0; i < tree->child_count; i++) {
@@ -56,7 +68,8 @@ double _calculateValue(Tree* tree) {
 }
 
 /**
- * @brief Calculate the balance of the billings. Get the tree child of id 1 and subtract the tree child of id 2
+ * @brief Calculate the balance of the billings. Get the tree child of id 1 and 2. 
+ * Call _calculateValue for each child and subtract the value of expenses sum from the balances sum.
  * @param tree 
  * @return double 
  */
@@ -72,6 +85,11 @@ double _calculateBalance(Tree* tree) {
   return balance;
 }
 
+/**
+ * @brief Print the tree node and its childs recursively with indentation.
+ * @param t 
+ * @param ident 
+ */
 void _showTree(Tree* t, int ident) {
   if (strcmp(t->id, "0") != 0) { // don't show root
     for (int i = 0; i < ident; i++) {

@@ -109,7 +109,7 @@ void showSystemInfo() {
 }
 
 /**
- * @brief Print the current tree structure
+ * @brief Print the current tree structure. Calls _showTree
  * @param tree 
  */
 void showCurrentTree(Tree * tree) {
@@ -140,7 +140,9 @@ void insertNewNode(Tree *current) {
   showCurrentTree(current);
 }
 
-/** Get the id of the node to delete from user input and calls _removeNode */
+/** 
+ * @brief Get the id of the node to delete from user input and calls _removeNode 
+ */
 void removeNode(Tree *current) {
   char *id = malloc(sizeof(char) * 100);
   printf("Digite o ID da conta que deseja remover: ");
@@ -158,8 +160,7 @@ void removeNode(Tree *current) {
 }
 
 /**
- * @brief Get user input of node id and new value. Calls _insertValue
- * 
+ * @brief Get user input of node id and new value. Calls _insertValue.
  */
 void insertValue(Tree *current) {
   char *id = malloc(sizeof(char) * 100);
@@ -192,7 +193,6 @@ void calculateBalance(Tree *current) {
  * @return tree
  */
 Tree* implementsBaseTree(Tree* tree) {
-  // Receitas
   _addNode(tree, "1", "Fontes de renda direta", 0);
   _addNode(tree, "1.1", "Vendas", 0);
   _addNode(tree, "1.1", "Mensalidades", 0);
@@ -204,8 +204,6 @@ Tree* implementsBaseTree(Tree* tree) {
   _addNode(tree, "1", "Recebimentos", 0);
   _addNode(tree, "1.3", "Recebimentos de clientes", 0);
   _addNode(tree, "1", "Outras receitas", 0);
-
-  // Despesas
   _addNode(tree, "2", "Custos em produtos", 0);
   _addNode(tree, "2.1", "Materia prima", 0);
   _addNode(tree, "2.1", "Promoções e descontos", 0);
@@ -239,7 +237,6 @@ int main() {
     printMenu();
     scanf("%d", &option);
     switch (option) {
-      
       case ADD:
         insertNewNode(tree);
         break;
